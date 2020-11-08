@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyl.shop.dao.ItemMapper">
+    <resultMap id="ItemMap" type="com.qyl.shop.pojo.Item">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="price" jdbcType="DOUBLE" property="price" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="sales" jdbcType="INTEGER" property="sales" />
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    </resultMap>
+
+    <insert id="addItemSelective" parameterType="Item" keyProperty="id" useGeneratedKeys="true">
+        insert into shop.item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="sales != null">
+                sales,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="sales != null">
+                #{sales,jdbcType=INTEGER},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="itemList" resultMap="ItemMap">
+        select *
+        from shop.item order by sales desc
+    </select>
+
+    <select id="getItemById" parameterType="java.lang.Integer" resultMap="ItemMap">
+        select *
+        from shop.item
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="increaseSales">
+        update shop.item
+        set sales = sales + #{amount}
+        where id = #{itemId,jdbcType=INTEGER}
+    </update>
+
+</mapper>

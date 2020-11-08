@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qyl.shop.dao.PromoMapper">
+    <resultMap id="PromoMap" type="com.qyl.shop.pojo.Promo">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="promo_name" jdbcType="VARCHAR" property="promoName" />
+        <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+        <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+        <result column="item_id" jdbcType="INTEGER" property="itemId" />
+        <result column="promo_item_price" jdbcType="DOUBLE" property="promoItemPrice" />
+    </resultMap>
+
+    <select id="selectByItemId" resultMap="PromoMap">
+        select *
+        from shop.promo
+        where item_id = #{itemId}
+    </select>
+
+</mapper>
